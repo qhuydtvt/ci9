@@ -1,6 +1,5 @@
 import javax.swing.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 
 public class GameWindow extends JFrame {
 
@@ -8,42 +7,25 @@ public class GameWindow extends JFrame {
 
     public GameWindow() {
         // Setup window
-        this.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-                System.out.println("windowOpened");
-            }
-
+        this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-
+                System.exit(0); // 0 => OK
             }
         });
+        this.addKeyListener(new KeyAdapter() {
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                canvas.inputManager.keyPressed(e);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                canvas.inputManager.keyReleased(e);
+            }
+        });
+
         this.setSize(600, 800);
         this.setResizable(false);
         this.setTitle("Micro-war");
@@ -52,6 +34,20 @@ public class GameWindow extends JFrame {
         canvas = new GameCanvas();
         this.setContentPane(canvas);
 
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    void mainLoop() {
+        long lastTimeRender = 0;
+        long currentTime = 0;
+        while(true) {
+            currentTime = System.nanoTime();
+            if (currentTime - lastTimeRender >= 17_000_000) {
+                canvas.run();
+                canvas.render();
+                lastTimeRender = currentTime;
+            }
+        }
     }
 }
