@@ -1,13 +1,15 @@
-public class Vector2D {
-    float x;
-    float y;
+package bases;
 
-    Vector2D(float x, float y) { // 2 doi so :  2 parameters
+public class Vector2D {
+    public float x;
+    public float y;
+
+    public Vector2D(float x, float y) { // 2 doi so :  2 parameters
         this.x = x;
         this.y = y;
     }
 
-    Vector2D() { // khong doi so: no parameters (takes no parameters)
+    public Vector2D() { // khong doi so: no parameters (takes no parameters)
         this(0, 0);
     }
 
@@ -15,12 +17,12 @@ public class Vector2D {
         System.out.println(this.x + ", " + this.y);
     }
 
-    void addUp(float x, float y) {
+    public void addUp(float x, float y) {
         this.x += x;
         this.y += y;
     }
 
-    void addUp(Vector2D other) {
+    public void addUp(Vector2D other) {
         this.addUp(other.x, other.y);
     }
 
@@ -41,7 +43,7 @@ public class Vector2D {
         this.subtractBy(other.x, other.y);
     }
 
-    Vector2D subtract(float x, float y) {
+    public Vector2D subtract(float x, float y) {
         return new Vector2D(this.x - x, this.y - y);
     }
 
